@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script type="module">
+   import {initializeGraph, q} from 'https://unpkg.com/@roam-research/roam-api-sdk@0.0.5/dist/roamapisdk.js';
+   console.log(q);
+
+   const graph = initializeGraph({
+       token: "roam-graph-token-XYZ",
+       graph: "Clojuredart",
+   });
+
+   q(
+       graph,
+       "[:find ?block-uid ?block-str :in $ ?search-string :where [?b :block/uid ?block-uid] [?b :block/string ?block-str] [(clojure.string/includes? ?block-str ?search-string)]]",
+       ["apple"]
+   ).then((r) => {
+       console.log(r);
+   });
+
+  </script>
+</head>
+
+<body>
+  <div class="cal">
+    <center>
+      <form><br>
+        <p>Result : <span id="display"></span></p>
+        <input type="number" class="input" placeholder="Enter first number" name="firstnumber" value="1" min="1"
+          min="9" /><br>
+        <input type="number" class="input" placeholder="Enter second number" name="secondnumber" value="1" min="1"
+          min="9" /><br><br>
+        <button type="submit" class="button">Subtract</button>
+      </form>
+    </center>
+  </div>
+</body>
+
+</html>

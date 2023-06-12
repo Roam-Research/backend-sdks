@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "roam-client"
+version = "0.1.0"
+description = ""
+authors = ["Baptiste Dupuch <baptiste.dupuch@gmail.com>"]
+readme = "README.md"
+packages = [{include = "roam_client"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "2.28.1"
+schema = "^0.7.5"
+
+[tool.poetry.scripts]
+roam = "roam_client.__main__:main"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

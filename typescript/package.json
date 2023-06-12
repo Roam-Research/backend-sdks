@@ -1,0 +1,42 @@
+{
+  "name": "@roam-research/roam-api-sdk",
+  "version": "0.9.0",
+  "description": "SDK to use Roam Reasearch API.",
+  "main": "dist/roamapisdk.js",
+  "type": "module",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "develop": "webpack-dev-server --config webpack.dev.js --mode development",
+    "build": "webpack --config webpack.prod.js --mode production",
+    "prepare": "webpack --config webpack.prod.js --mode production",
+    "lint": "eslint . --ext .ts"
+  },
+  "keywords": [],
+  "author": "Roam Research",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "html-webpack-plugin": "^5.5.0",
+    "prettier": "2.8.8",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.86.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Roam-Research/backend-sdks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Roam-Research/backend-sdks/issues"
+  },
+  "homepage": "https://github.com/Roam-Research/backend-sdks#readme"
+}
