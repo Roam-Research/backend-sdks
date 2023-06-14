@@ -1,6 +1,6 @@
 {
   "name": "@roam-research/roam-api-sdk",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "SDK to use Roam Reasearch API.",
   "main": "dist/roamapisdk.js",
   "type": "module",
