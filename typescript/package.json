@@ -11,6 +11,7 @@
     "develop": "webpack-dev-server --config webpack.dev.js --mode development",
     "build": "webpack --config webpack.prod.js --mode production",
     "prepare": "webpack --config webpack.prod.js --mode production",
+    "format": "prettier --config .prettierrc.json 'src/index.ts' --write",
     "lint": "eslint . --ext .ts"
   },
   "keywords": [],
