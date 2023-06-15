@@ -10,7 +10,7 @@ class BrowserHTTPClient implements APICall<Response> {
 
 class RoamBackendClient {
   //static #baseUrl = 'https://peer-2.api.roamresearch.com:3004';
-  static #baseUrl = 'https://api.roamresearch.com';
+  static #baseUrl = "https://api.roamresearch.com";
   //static #baseUrl = "http://localhost:3000";
   #token: string;
   #peer: string;
@@ -42,6 +42,8 @@ class RoamBackendClient {
           "Error: " + (await response.json()).message ??
             "HTTP " + response.status
         );
+      case 429:
+        throw new Error("Too many requests, try again in a minute.");
       case 401:
         throw new Error(
           "Invalid token or token doesn't have enough privileges."
@@ -249,6 +251,29 @@ export async function deletePage(
   return response.ok;
 }
 
+type RoamBatchActions = {
+  action?: "batch-actions";
+  actions: [
+    | RoamDeletePage
+    | RoamUpdatePage
+    | RoamCreatePage
+    | RoamDeleteBlock
+    | RoamUpdateBlock
+    | RoamMoveBlock
+    | RoamCreateBlock
+  ];
+};
+
+export async function batchActions(
+  app: RoamBackendClient,
+  body: RoamBatchActions
+): Promise<any> {
+  body.action = "batch-actions";
+  const path = `/api/graph/${app.graph}/write`;
+  const response = await app.api(path, "POST", body);
+  return await response.json();
+}
+
 type InitGraph = {
   graph: string;
   token: string;
@@ -261,42 +286,3 @@ export function initializeGraph(config: InitGraph) {
   }
   return new RoamBackendClient(config.token, config.graph, config.httpClient);
 }
-
-// const graph = initializeGraph({
-//   token: "",
-//   graph: "Clojuredart",
-// });
-
-// client.createBlock({"location": {"parent-uid": "01-02-2023", "order": "last"}, "block": {"string": "coucou"}});
-// q(
-//   graph,
-//   "[:find ?block-uid ?block-str :in $ ?search-string :where [?b :block/uid ?block-uid] [?b :block/string ?block-str] [(clojure.string/includes? ?block-str ?search-string)]]",
-//   ["apple"]
-// ).then((r) => {
-//   console.log(r);
-// });
-
-// (q {:token ""
-//     :graph "Clojuredart"}
-//   "[:find ?block-uid ?block-str :in $ ?search-string :where [?b :block/uid ?block-uid] [?b :block/string ?block-str] [(clojure.string/includes? ?block-str ?search-string)]]"
-//   "apple")
-// createBlock(graph, {
-//   location: { "parent-uid": "01-02-2023", order: "last" },
-//   block: { string: "coucou" },
-// }).then((r) => {
-//   console.log(r);
-// });
-
-//client.pull(
-//  "[:block/uid :node/title :block/string {:block/children [:block/uid :block/string]} {:block/refs [:node/title :block/string :block/uid]}]",
-//  "[:block/uid \"08-30-2022\"]",).then((r) => {
-//  console.log(r);
-//});
-
-// docker run -p 4000:4000 -w "/usr/roam" -v "$PWD:/usr/roam" -it node:18.12.1 /bin/sh
-// npm run develop
-
-// const graph = initializeGraph({graph: Clojuredart, token: ...});
-// q(graph, "", "");;
-
-// npx prettier --write .

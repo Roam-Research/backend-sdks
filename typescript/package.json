@@ -1,6 +1,6 @@
 {
   "name": "@roam-research/roam-api-sdk",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "SDK to use Roam Reasearch API.",
   "main": "dist/roamapisdk.js",
   "type": "module",
@@ -11,6 +11,7 @@
     "develop": "webpack-dev-server --config webpack.dev.js --mode development",
     "build": "webpack --config webpack.prod.js --mode production",
     "prepare": "webpack --config webpack.prod.js --mode production",
+    "format": "prettier --config .prettierrc.json 'src/index.ts' --write",
     "lint": "eslint . --ext .ts"
   },
   "keywords": [],

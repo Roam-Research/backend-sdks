@@ -4,11 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <script type="module">
-   import {initializeGraph, q} from 'https://unpkg.com/@roam-research/roam-api-sdk@0.0.5/dist/roamapisdk.js';
+    //import {initializeGraph, q, createBlock, batchActions} from 'https://unpkg.com/@roam-research/roam-api-sdk@0.0.5/dist/roamapisdk.js';
+    import {initializeGraph, q, createBlock, batchActions} from '../dist/roamapisdk.js';
    console.log(q);
 
    const graph = initializeGraph({
-       token: "roam-graph-token-XYZ",
+       token: "roam-graph-token",
        graph: "Clojuredart",
    });
 
@@ -19,6 +20,27 @@
    ).then((r) => {
        console.log(r);
    });
+
+    createBlock(graph, {"location": {"parent-uid": "06-14-2023", "order": "last"}, "block": {"string": "coucou"}}).then((v) => console.log(v));
+
+
+    batchActions(graph, {"actions": [{
+        "action": "create-page",
+        "page": {
+            "title": "Batch action test page",
+            "uid": -1
+        }
+    },
+                                     {
+                                         "action": "create-block",
+                                         "location": {
+                                             "parent-uid": -1,
+                                             "order": "last"
+                                         },
+                                         "block": {
+                                             "string": "First"
+                                         }
+                                     }]}).then((v) => console.log(v));
 
   </script>
 </head>
