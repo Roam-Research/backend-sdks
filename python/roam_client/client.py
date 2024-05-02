@@ -58,6 +58,13 @@ def pull(client: RoamBackendClient, pattern: str, eid: str):
     result = resp.json()
     return result['result']
 
+def pull_many(client: RoamBackendClient, pattern: str, eids: str):
+    path = '/api/graph/' + client.graph + '/pull-many'
+    body = {'eids': eids, 'selector': pattern}
+    resp = client.call(path, 'POST', body)
+    result = resp.json()
+    return result['result']
+
 roam_block_location = Schema({'parent-uid': str, 'order': Or(int, str)})
 
 roam_block = Schema({'string': str, Optional('uid'): str, Optional('open'): bool, Optional('heading'): int, Optional('text-align'): bool, Optional('children-view-type'): str})

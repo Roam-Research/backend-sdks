@@ -14,4 +14,4 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN poetry self update
 RUN poetry completions bash >> ~/.bash_completion
 EOF
-docker run -w "/usr/roam" -v "$PWD:/usr/roam"  roam-python sh -c "poetry install && poetry build"
+docker run -w "/usr/roam" -v "$PWD:/usr/roam"  roam-python sh -c "poetry install && poetry build && poetry run roam"
