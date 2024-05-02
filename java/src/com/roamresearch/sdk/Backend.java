@@ -95,6 +95,14 @@ public class Backend {
 		return api("/api/graph/" + graph + "/pull", "POST", Map.of("eid", eid, "selector", pattern)).get("result");
 	}
 
+	public Object pullMany(String pattern, String... eids) {
+		return api("/api/graph/" + graph + "/pull-many", "POST", Map.of("eids", eids, "selector", pattern)).get("result");
+	}
+
+	public Object pullMany(String pattern, String eids) {
+		return api("/api/graph/" + graph + "/pull-many", "POST", Map.of("eids", eids, "selector", pattern)).get("result");
+	}
+
 	public void deleteBlock(String uid) {
 		doCommand(Map.of("action", "delete-block", "block", Map.of("uid", uid)));
 	}
@@ -206,13 +214,24 @@ public class Backend {
 	}
 
 	public static void main(String[] args) throws JsonProcessingException {
-		new Backend("", "Clojuredart").createBlock(Map.of("block",
+    final String token=args[0];
+		new Backend(token, "Clojuredart").createBlock(Map.of("block",
 				Map.of("string", "hi from java sdk"), "location", Map.of("parent-uid", "01-11-2023", "order", "last")));
-		System.err.println(new Backend("", "Clojuredart").q(
+		System.err.println(new Backend(token, "Clojuredart").q(
 				"[:find ?block-uid ?block-str :in $ ?search-string :where [?b :block/uid ?block-uid] [?b :block/string ?block-str] [(clojure.string/includes? ?block-str ?search-string)]]",
 				"apple"));
-		System.err.println(new Backend("", "Clojuredart").pull(
+		System.err.println(new Backend(token, "Clojuredart").pull(
 				"[:block/uid :node/title :block/string {:block/children [:block/uid :block/string]} {:block/refs [:node/title :block/string :block/uid]}]",
 				"[:block/uid \"08-30-2022\"]"));
+		System.err.println(new Backend(token, "Clojuredart").pullMany(
+				"[{:block/children [:block/string]}]",
+				"[:block/uid \"5dTDlS_I3\"]",
+        "[:block/uid \"U6rvJ7XJC\"]"));
+    System.err.println(new Backend(token, "Clojuredart").pullMany(
+				"[{:block/children [:block/string]}]",
+				"[[:block/uid \"5dTDlS_I3\"] [:block/uid \"U6rvJ7XJC\"]]"));
+		System.err.println(new Backend(token, "Clojuredart").pullMany(
+				"[{:block/children [:block/string]}]",
+        new String[] {"[:block/uid \"5dTDlS_I3\"]", "[:block/uid \"U6rvJ7XJC\"]"}));
 	}
 }
