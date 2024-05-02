@@ -67,6 +67,10 @@
   (api conn (str "/api/graph/" (:graph conn) "/pull") :POST
     {:eid eid :selector pattern}))
 
+(defn pull-many [conn pattern eids]
+  (api conn (str "/api/graph/" (:graph conn) "/pull-many") :POST
+    {:eids eids :selector pattern}))
+
 (defn delete-block [conn uid-or-cmd]
   (let [uid (cond-> uid-or-cmd (map? uid-or-cmd) (-> :block :uid))]
     (do-command conn {:action :delete-block :block {:uid uid}})))
@@ -128,6 +132,22 @@
       :graph "Clojuredart"}
      "[:find ?block-uid ?block-str :in $ ?search-string :where [?b :block/uid ?block-uid] [?b :block/string ?block-str] [(clojure.string/includes? ?block-str ?search-string)]]"
      "apple")
+
+  (pull {:token ""
+      :graph "Clojuredart"}
+    "[{:block/children [:block/string]}]"  "[:block/uid \"5dTDlS_I3\"]")
+
+  (=
+    (pull-many {:token ""
+                :graph "Clojuredart"}
+      "[{:block/children [:block/string]}]"
+      ["[:block/uid \"5dTDlS_I3\"]" "[:block/uid \"U6rvJ7XJC\"]"]
+      #_"[[:block/uid \"5dTDlS_I3\"] [:block/uid \"U6rvJ7XJC\"]]")
+    (pull-many {:token ""
+      :graph "Clojuredart"}
+    "[{:block/children [:block/string]}]"
+    #_["[:block/uid \"5dTDlS_I3\"]" "[:block/uid \"U6rvJ7XJC\"]"]
+    "[[:block/uid \"5dTDlS_I3\"] [:block/uid \"U6rvJ7XJC\"]]"))
 
   (create-block {:token ""
                  :graph "Clojuredart"}
