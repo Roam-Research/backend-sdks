@@ -109,6 +109,21 @@ export async function pull(
   return result;
 }
 
+export async function pull_many(
+  app: RoamBackendClient,
+  pattern: string,
+  eids: string
+): Promise<any> {
+  const path = `/api/graph/${app.graph}/pull-many`;
+  const body = {
+    eids: eids,
+    selector: pattern,
+  };
+  const resp = await app.api(path, "POST", body);
+  const { result } = await resp.json();
+  return result;
+}
+
 type RoamBlockLocation = {
   "parent-uid": string;
   order: number | string;
