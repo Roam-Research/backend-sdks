@@ -24,7 +24,8 @@ export default {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "index.js",
+    library: {type: "module"},
+    filename: "roamapisdk.js",
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
@@ -39,4 +40,7 @@ export default {
       template: "src/custom.html",
     }),
   ],
+  experiments: {
+    outputModule: true,
+  }
 };
